@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 
 class MyTextFiled extends StatelessWidget {
   TextEditingController controller;
+  String? Function(String?)? validator;
   String hintText;
   bool obscure;
   MyTextFiled({
     Key? key,
+    required this.validator,
     required this.controller,
     required this.hintText,
     required this.obscure,
@@ -23,6 +25,8 @@ class MyTextFiled extends StatelessWidget {
       ),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: validator,
         controller: controller,
         obscureText: obscure,
         decoration: InputDecoration(
