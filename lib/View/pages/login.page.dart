@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/View/components/button.comp.dart';
 import 'package:my_chat_app/View/components/textfieled.dart';
+import 'package:my_chat_app/View/pages/register.page.dart';
+import 'package:my_chat_app/utils/functions.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
+  LoginPage({super.key});
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -33,9 +36,15 @@ class LoginPage extends StatelessWidget {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               //! Email
-              MyTextFiled(hintText: "Email", obscure: false),
+              MyTextFiled(
+                  hintText: "Email",
+                  obscure: false,
+                  controller: emailController),
               //! Password
-              MyTextFiled(hintText: "Password", obscure: true),
+              MyTextFiled(
+                  hintText: "Password",
+                  obscure: true,
+                  controller: passwordController),
               //! Forgot Password
               GestureDetector(
                 onTap: () {},
@@ -63,12 +72,15 @@ class LoginPage extends StatelessWidget {
                     style: TextStyle(fontSize: 20),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      pushReplacementTopage(RegisterPage(), context);
+                    },
                     child: const Text(
                       " Register now!",
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
+                          decorationStyle: TextDecorationStyle.wavy,
                           color: Colors.blue),
                     ),
                   )

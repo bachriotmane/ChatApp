@@ -1,13 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 
 class MyTextFiled extends StatelessWidget {
+  TextEditingController controller;
   String hintText;
   bool obscure;
   MyTextFiled({
     Key? key,
+    required this.controller,
     required this.hintText,
     required this.obscure,
   }) : super(key: key);
@@ -20,6 +23,7 @@ class MyTextFiled extends StatelessWidget {
       ),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: TextFormField(
+        controller: controller,
         obscureText: obscure,
         decoration: InputDecoration(
           border: const OutlineInputBorder(
