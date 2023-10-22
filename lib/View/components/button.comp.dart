@@ -4,7 +4,6 @@
 import 'package:flutter/material.dart';
 
 class MyBotton extends StatelessWidget {
-  
   String btnText;
   void Function()? onTap;
   MyBotton({

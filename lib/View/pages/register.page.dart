@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
+import 'package:my_chat_app/Controller/firebase_services/abstract_firebasemethodes.dart';
+import 'package:my_chat_app/Controller/firebase_services/firebase_servicesImpl.dart';
 import 'package:my_chat_app/View/components/button.comp.dart';
 import 'package:my_chat_app/View/components/textfieled.dart';
 import 'package:my_chat_app/View/pages/login.page.dart';
@@ -24,7 +25,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
   TextEditingController password2Controller = TextEditingController();
 
-  final GlobalKey _formKey = GlobalKey<FormState>();
+  FireBaseServices? firebaseServices;
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    firebaseServices = FirebaseAuthServices();
+  }
 
   String? validateEmpty(String? value) {
     if (value != null && value.isEmpty) {
@@ -132,7 +141,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       hintText: "Verify Password",
                       obscure: true),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  MyBotton(btnText: "Register", onTap: () {}),
+                  MyBotton(
+                      btnText: "Register",
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          firebaseServices!.registerWithEmailPassword(
+                              emailController.text,
+                              password1Controller.text,
+                              context);
+                        }
+                      }),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

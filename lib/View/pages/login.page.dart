@@ -1,6 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_chat_app/Controller/firebase_services/abstract_firebasemethodes.dart';
+import 'package:my_chat_app/Controller/firebase_services/firebase_servicesImpl.dart';
 import 'package:my_chat_app/View/components/button.comp.dart';
 import 'package:my_chat_app/View/components/textfieled.dart';
+import 'package:my_chat_app/View/pages/home.page.dart';
 import 'package:my_chat_app/View/pages/register.page.dart';
 import 'package:my_chat_app/utils/functions.dart';
 
@@ -15,7 +21,17 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
+  FireBaseServices? firebaseServices;
   final _formKey = GlobalKey<FormState>();
+  Future<void> reload() async {
+    await FirebaseAuth.instance.currentUser?.reload();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    firebaseServices = FirebaseAuthServices();
+  }
 
   String? validateEmail(String? value) {
     final RegExp emailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
@@ -93,7 +109,15 @@ class _LoginPageState extends State<LoginPage> {
                   //! Login Button
                   MyBotton(
                     btnText: "Login",
-                    onTap: () {},
+                    onTap: () {
+                      reload();
+                      if (_formKey.currentState!.validate()) {
+                        firebaseServices!.loginWithEmailPassword(
+                            emailController.text,
+                            passwordController.text,
+                            context);
+                      }
+                    },
                   ),
                   //! Texttoregister
                   SizedBox(height: MediaQuery.of(context).size.height * 0.1),
